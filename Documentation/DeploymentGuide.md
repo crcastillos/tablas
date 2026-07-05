@@ -15,9 +15,15 @@
 
 ## 2. Backend
 
+### Visual Studio → MyAspnet (IIS Web Deploy)
+
+Ver guía detallada: [MyAspnetDeploy.md](MyAspnetDeploy.md)
+
+Perfil: `src/HouseholdFinance.Api/Properties/PublishProfiles/MyAspnet-WebDeploy.pubxml`
+
 ```powershell
 cd src/HouseholdFinance.Api
-dotnet publish -c Release -o ./publish
+dotnet publish -c Release
 ```
 
 Variables en el host (IIS Application Settings o systemd):

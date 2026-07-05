@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+Copiar a MyAspnet-WebDeploy.pubxml.user (Visual Studio lo crea al publicar).
+El archivo .pubxml.user está ignorado por git (*.user).
+-->
+<Project>
+  <PropertyGroup>
+    <UserName>your-msdeploy-user</UserName>
+    <Password>your-msdeploy-password</Password>
+  </PropertyGroup>
+</Project>

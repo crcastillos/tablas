@@ -2,6 +2,7 @@ using System.Net;
 using System.Text.Json;
 using HouseholdFinance.Api.DTOs.Common;
 using HouseholdFinance.Api.Exceptions;
+using HouseholdFinance.Api.Logging;
 
 namespace HouseholdFinance.Api.Middleware;
 
@@ -13,11 +14,13 @@ public sealed class ExceptionHandlingMiddleware(RequestDelegate next, ILogger<Ex
         catch (BusinessException ex)
         {
             logger.LogWarning(ex, "Business error {StatusCode}", ex.StatusCode);
+            DeploymentFileLogger.Warn("http", ex.Message, new { path = context.Request.Path.Value, statusCode = ex.StatusCode });
             await WriteErrorAsync(context, ex.StatusCode, ex.Message);
         }
         catch (Exception ex)
         {
             logger.LogError(ex, "Unhandled error");
+            DeploymentFileLogger.Error("http", "Unhandled error", ex, new { path = context.Request.Path.Value });
             var message = "Ha ocurrido un error inesperado.";
             await WriteErrorAsync(context, (int)HttpStatusCode.InternalServerError, message);
         }

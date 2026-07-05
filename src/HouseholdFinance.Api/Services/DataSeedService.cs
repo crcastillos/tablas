@@ -6,7 +6,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace HouseholdFinance.Api.Services;
 
-public interface IDataSeedService { Task SeedAsync(CancellationToken ct = default); }
+public interface IDataSeedService
+{
+    Task SeedAsync(CancellationToken ct = default);
+    Task SeedDemoAsync(CancellationToken ct = default);
+}
 
 public sealed class DataSeedService(
     ApplicationDbContext db,
@@ -25,6 +29,11 @@ public sealed class DataSeedService(
     ];
 
     public async Task SeedAsync(CancellationToken ct = default)
+    {
+        await SeedIncomeTypesAsync(ct);
+    }
+
+    public async Task SeedDemoAsync(CancellationToken ct = default)
     {
         await SeedIncomeTypesAsync(ct);
         var demoUser = await SeedDemoUserAsync(ct);

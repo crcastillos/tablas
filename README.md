@@ -22,10 +22,9 @@ Procesos/fase-1..4/           Checkpoints por fase
 
 ### 1. Configurar variables
 
-Copiar `.env.example` a `.env` en la raíz y configurar:
+**Piloto (MyAspnet):** la configuración está en `src/HouseholdFinance.Api/appsettings.json` y `appsettings.Production.json`. No requiere variables de entorno en el hosting.
 
-- `ConnectionStrings__DefaultConnection` — **requerida** (SQL Server)
-- `JwtSettings__Key` — mínimo 32 caracteres
+Para desarrollo local opcional, copiar `.env.example` a `.env` en la raíz.
 
 ### 2. Migración de base de datos
 
@@ -81,6 +80,16 @@ npm run dev
 ```
 
 SPA: `http://localhost:5173`
+
+## Publicación API (MyAspnet / IIS)
+
+Ver [Documentation/MyAspnetDeploy.md](Documentation/MyAspnetDeploy.md).
+
+Perfil Visual Studio: **MyAspnet-WebDeploy** en `HouseholdFinance.Api`.
+
+Configuración piloto embebida en `appsettings.json` / `appsettings.Production.json` (sin variables de entorno en el panel).
+
+Verificación: `https://tablas.innovasal.app/health`
 
 ## Validación
 
