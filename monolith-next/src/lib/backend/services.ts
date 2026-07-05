@@ -209,25 +209,6 @@ export async function register(payload: { email: string; password: string; displ
 }
 
 export async function login(payload: { email: string; password: string }) {
-  // #region agent log
-  fetch("http://127.0.0.1:7556/ingest/94f640ef-f292-4d4c-8e4c-66a96b1ade92", {
-    method: "POST",
-    headers: { "Content-Type": "application/json", "X-Debug-Session-Id": "4182c6" },
-    body: JSON.stringify({
-      sessionId: "4182c6",
-      runId: "pre-fix",
-      hypothesisId: "H6",
-      location: "src/lib/backend/services.ts:213",
-      message: "Login service entry",
-      data: {
-        hasEmail: Boolean(payload?.email),
-        hasPassword: Boolean(payload?.password),
-        normalizedEmailLength: normalizeEmail(payload?.email ?? "").length,
-      },
-      timestamp: Date.now(),
-    }),
-  }).catch(() => {});
-  // #endregion
   const users = await runQuery<{
     id: string;
     email: string;
@@ -245,110 +226,16 @@ export async function login(payload: { email: string; password: string }) {
      WHERE NormalizedEmail = @normalizedEmail`,
     [{ name: "normalizedEmail", type: sql.NVarChar(256), value: normalizeEmail(payload.email) }],
   );
-  // #region agent log
-  fetch("http://127.0.0.1:7556/ingest/94f640ef-f292-4d4c-8e4c-66a96b1ade92", {
-    method: "POST",
-    headers: { "Content-Type": "application/json", "X-Debug-Session-Id": "4182c6" },
-    body: JSON.stringify({
-      sessionId: "4182c6",
-      runId: "pre-fix",
-      hypothesisId: "H2",
-      location: "src/lib/backend/services.ts:248",
-      message: "Login user query completed",
-      data: {
-        matchedUsers: users.length,
-      },
-      timestamp: Date.now(),
-    }),
-  }).catch(() => {});
-  // #endregion
   const user = users[0];
   if (!user) {
-    // #region agent log
-    fetch("http://127.0.0.1:7556/ingest/94f640ef-f292-4d4c-8e4c-66a96b1ade92", {
-      method: "POST",
-      headers: { "Content-Type": "application/json", "X-Debug-Session-Id": "4182c6" },
-      body: JSON.stringify({
-        sessionId: "4182c6",
-        runId: "pre-fix",
-        hypothesisId: "H2",
-        location: "src/lib/backend/services.ts:231",
-        message: "Login user not found by normalized email",
-        data: {
-          hasPayloadEmail: Boolean(payload?.email),
-          normalizedEmailLength: normalizeEmail(payload?.email ?? "").length,
-        },
-        timestamp: Date.now(),
-      }),
-    }).catch(() => {});
-    // #endregion
     throw new UnauthorizedError("Credenciales inválidas.");
   }
 
-  // #region agent log
-  fetch("http://127.0.0.1:7556/ingest/94f640ef-f292-4d4c-8e4c-66a96b1ade92", {
-    method: "POST",
-    headers: { "Content-Type": "application/json", "X-Debug-Session-Id": "4182c6" },
-    body: JSON.stringify({
-      sessionId: "4182c6",
-      runId: "pre-fix",
-      hypothesisId: "H3",
-      location: "src/lib/backend/services.ts:252",
-      message: "Login user loaded before lockout/password checks",
-      data: {
-        userIdPresent: Boolean(user.id),
-        passwordHashLength: user.passwordHash?.length ?? 0,
-        hasLockoutEnd: Boolean(user.lockoutEnd),
-        lockoutFuture: Boolean(user.lockoutEnd && new Date(user.lockoutEnd).getTime() > Date.now()),
-        accessFailedCount: user.accessFailedCount ?? 0,
-      },
-      timestamp: Date.now(),
-    }),
-  }).catch(() => {});
-  // #endregion
-
   if (user.lockoutEnd && new Date(user.lockoutEnd).getTime() > Date.now()) {
-    // #region agent log
-    fetch("http://127.0.0.1:7556/ingest/94f640ef-f292-4d4c-8e4c-66a96b1ade92", {
-      method: "POST",
-      headers: { "Content-Type": "application/json", "X-Debug-Session-Id": "4182c6" },
-      body: JSON.stringify({
-        sessionId: "4182c6",
-        runId: "pre-fix",
-        hypothesisId: "H3",
-        location: "src/lib/backend/services.ts:273",
-        message: "Login rejected due to lockout window",
-        data: {
-          accessFailedCount: user.accessFailedCount ?? 0,
-          lockoutEndUtc: new Date(user.lockoutEnd).toISOString(),
-        },
-        timestamp: Date.now(),
-      }),
-    }).catch(() => {});
-    // #endregion
     throw new UnauthorizedError("Credenciales inválidas.");
   }
 
   const validPassword = user.passwordHash ? verifyPassword(payload.password, user.passwordHash) : false;
-  // #region agent log
-  fetch("http://127.0.0.1:7556/ingest/94f640ef-f292-4d4c-8e4c-66a96b1ade92", {
-    method: "POST",
-    headers: { "Content-Type": "application/json", "X-Debug-Session-Id": "4182c6" },
-    body: JSON.stringify({
-      sessionId: "4182c6",
-      runId: "pre-fix",
-      hypothesisId: "H4",
-      location: "src/lib/backend/services.ts:292",
-      message: "Password verification completed",
-      data: {
-        validPassword,
-        passwordHashExists: Boolean(user.passwordHash),
-        accessFailedCount: user.accessFailedCount ?? 0,
-      },
-      timestamp: Date.now(),
-    }),
-  }).catch(() => {});
-  // #endregion
   if (!validPassword) {
     const failedCount = (user.accessFailedCount ?? 0) + 1;
     const lockoutEnd = failedCount >= 5 ? new Date(Date.now() + 15 * 60_000) : null;

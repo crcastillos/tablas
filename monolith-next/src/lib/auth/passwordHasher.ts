@@ -45,24 +45,6 @@ export function hashPassword(password: string): string {
 export function verifyPassword(password: string, hashedPassword: string): boolean {
   try {
     const decoded = Buffer.from(hashedPassword, "base64");
-    // #region agent log
-    fetch("http://127.0.0.1:7556/ingest/94f640ef-f292-4d4c-8e4c-66a96b1ade92", {
-      method: "POST",
-      headers: { "Content-Type": "application/json", "X-Debug-Session-Id": "4182c6" },
-      body: JSON.stringify({
-        sessionId: "4182c6",
-        runId: "pre-fix",
-        hypothesisId: "H4",
-        location: "src/lib/auth/passwordHasher.ts:34",
-        message: "Password hash decoded",
-        data: {
-          decodedLength: decoded.length,
-          formatMarker: decoded.length > 0 ? decoded[0] : null,
-        },
-        timestamp: Date.now(),
-      }),
-    }).catch(() => {});
-    // #endregion
     if (decoded.length < 13 || decoded[0] !== FORMAT_MARKER) {
       return false;
     }
@@ -71,26 +53,6 @@ export function verifyPassword(password: string, hashedPassword: string): boolea
     const iterations = readUInt32NetworkBytes(decoded, 5);
     const saltSize = readUInt32NetworkBytes(decoded, 9);
     const digestAlgorithm = getDigestAlgorithm(prf);
-    // #region agent log
-    fetch("http://127.0.0.1:7556/ingest/94f640ef-f292-4d4c-8e4c-66a96b1ade92", {
-      method: "POST",
-      headers: { "Content-Type": "application/json", "X-Debug-Session-Id": "4182c6" },
-      body: JSON.stringify({
-        sessionId: "4182c6",
-        runId: "pre-fix",
-        hypothesisId: "H4",
-        location: "src/lib/auth/passwordHasher.ts:57",
-        message: "Password hash metadata parsed",
-        data: {
-          prf,
-          iterations,
-          saltSize,
-          digestAlgorithm,
-        },
-        timestamp: Date.now(),
-      }),
-    }).catch(() => {});
-    // #endregion
     if (!digestAlgorithm || decoded.length < 13 + saltSize) {
       return false;
     }
