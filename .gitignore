@@ -1,0 +1,23 @@
+# Build
+bin/
+obj/
+dist/
+node_modules/
+
+# IDE
+.vs/
+.vscode/
+*.user
+*.suo
+
+# Secrets
+.env
+.env.local
+appsettings.*.local.json
+
+# Logs
+*.log
+
+# OS
+Thumbs.db
+.DS_Store

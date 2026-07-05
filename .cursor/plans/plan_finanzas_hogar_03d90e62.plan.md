@@ -4,16 +4,16 @@ overview: Plan maestro para implementar la app de Finanzas del Hogar en 4 fases,
 todos:
   - id: fase-1-base
     content: Implementar Fase 1 completa (backend+frontend+pruebas) y checkpoint en Procesos/fase-1
-    status: pending
+    status: completed
   - id: fase-2-presupuesto
     content: Implementar Fase 2 y checkpoint en Procesos/fase-2
-    status: pending
+    status: completed
   - id: fase-3-gastos
     content: Implementar Fase 3 y checkpoint en Procesos/fase-3
-    status: pending
+    status: completed
   - id: fase-4-cierre-mvp
     content: Implementar Fase 4, documentación final y checkpoint en Procesos/fase-4
-    status: pending
+    status: completed
 isProject: false
 ---
 
