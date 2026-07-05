@@ -1,0 +1,7 @@
+ConnectionStrings__DefaultConnection=server=SQL8012.site4now.net;Initial Catalog=db_aa20c2_tablas2;User Id=db_aa20c2_tablas2_admin;Password=72utrY54$;Encrypt=True;TrustServerCertificate=True
+JwtSettings__Key=Gx7Pq9Lr2Tn4Vb8Yc3Wm6Zk1Jf5Hh0SdRuQa
+JwtSettings__Issuer=HouseholdFinance
+JwtSettings__Audience=HouseholdFinanceClient
+JwtSettings__DurationInMinutes=60
+CorsSettings__AllowedOrigins__0=http://localhost:5173
+ASPNETCORE_ENVIRONMENT=Development

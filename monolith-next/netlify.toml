@@ -1,0 +1,13 @@
+[build]
+command = "npm run build"
+publish = ".next"
+
+[build.environment]
+NODE_VERSION = "20"
+NEXT_PUBLIC_API_BASE_URL = "/api"
+NEXT_PUBLIC_APP_NAME = "Finanzas del Hogar"
+NEXT_PUBLIC_DEFAULT_CURRENCY = "USD"
+NEXT_PUBLIC_DEFAULT_TIME_ZONE = "America/El_Salvador"
+
+[[plugins]]
+package = "@netlify/plugin-nextjs"
