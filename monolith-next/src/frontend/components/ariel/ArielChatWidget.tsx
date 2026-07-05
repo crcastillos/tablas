@@ -122,7 +122,7 @@ export default function ArielChatWidget() {
         <Box sx={{ p: 2, bgcolor: "primary.main", color: "primary.contrastText", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
           <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
             <SmartToyIcon />
-            <Typography variant="subtitle1" fontWeight="bold">ARIEL</Typography>
+            <Typography variant="subtitle1" sx={{ fontWeight: 700 }}>ARIEL</Typography>
           </Box>
           <Box>
             <IconButton size="small" color="inherit" onClick={handleMinimize}>
@@ -237,7 +237,7 @@ export default function ArielChatWidget() {
           fullScreen
           open={isOpen}
           onClose={() => setIsOpen(false)}
-          TransitionComponent={Transition}
+          slots={{ transition: Transition }}
         >
           <AppBar sx={{ position: "relative" }}>
             <Toolbar>

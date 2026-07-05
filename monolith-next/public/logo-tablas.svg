@@ -1,0 +1,13 @@
+<svg width="200" height="200" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background Circle -->
+  <circle cx="100" cy="100" r="90" fill="#0D47A1" />
+  
+  <!-- Stylized "T" or Table icon -->
+  <rect x="50" y="60" width="100" height="15" rx="5" fill="#FFFFFF" />
+  <rect x="92.5" y="60" width="15" height="80" rx="5" fill="#FFFFFF" />
+  
+  <!-- Growth Accent -->
+  <path d="M140 140L160 120M160 120V135M160 120H145" stroke="#2E7D32" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" />
+  
+  <!-- Text "tablas" (optional, but let's keep it simple for the icon) -->
+</svg>
