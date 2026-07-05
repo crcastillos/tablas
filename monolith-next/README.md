@@ -1,6 +1,6 @@
 # Monolith Next
 
-Frontend de usuario final migrado a Next App Router con paridad funcional completa respecto al SPA previo, manteniendo consumo interno por `/api` y compatibilidad con el backend/proxy actual.
+Frontend + backend en Next App Router con backend Node nativo sobre SQL Server (`mssql`) y sin dependencia de API .NET externa.
 
 ## Cobertura funcional
 
@@ -25,7 +25,7 @@ El shell incluye navegacion desktop/mobile, selector de hogar/periodo, gasto rap
 - `src/app/(auth)` para autenticacion.
 - `src/app/(app)` para experiencia autenticada.
 - `src/frontend/` con capa reusable (contextos, API client, layout, utilidades y paginas por dominio).
-- `src/app/api/[...path]/route.ts` mantiene proxy hacia backend legado para rutas migradas (`auth`, `households`, `income-types`).
+- `src/app/api/*` contiene los route handlers nativos (auth, households, periods, incomes, categories, recurring, budget, expenses, reports, health).
 
 ## Variables de entorno
 
@@ -34,8 +34,10 @@ Copiar `.env.example` a `.env.local` y completar valores reales.
 Requeridas en runtime:
 
 - `DefaultConnection`
-- `JWT__Secret` (y/o variables `JWT*`)
-- `LEGACY_API_BASE_URL`
+- `JWT__Secret`
+- `JWT__Issuer`
+- `JWT__Audience`
+- `JWT__ExpiresMinutes`
 
 UI/publicas (sin secretos):
 
@@ -88,4 +90,4 @@ npm run validate:cutover
 - plugin `@netlify/plugin-nextjs`
 - defaults de variables `NEXT_PUBLIC_*` para frontend
 
-Configurar en Netlify UI las variables sensibles (`DefaultConnection`, `JWT*`, `LEGACY_API_BASE_URL`) antes de publicar.
+Configurar en Netlify UI las variables sensibles (`DefaultConnection`, `JWT__Secret`, `JWT__Issuer`, `JWT__Audience`, `JWT__ExpiresMinutes`) antes de publicar.

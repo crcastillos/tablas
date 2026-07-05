@@ -1,17 +1,23 @@
 import { NextResponse } from "next/server";
 
-import { getJwtEnvironment, validateBootstrapEnvironment } from "@/lib/config/env";
+import { getJwtConfig, validateBootstrapEnvironment } from "@/lib/config/env";
+import { getSqlPool } from "@/lib/sql/sqlServer";
 
 export const runtime = "nodejs";
 
 export async function GET() {
   try {
     validateBootstrapEnvironment();
+    const pool = await getSqlPool();
+    const queryResult = await pool.request().query("SELECT 1 AS ok");
+    const dbReady = queryResult.recordset[0]?.ok === 1;
+    const jwt = getJwtConfig();
 
     return NextResponse.json({
       status: "ok",
       bootstrapReady: true,
-      jwtVariableCount: Object.keys(getJwtEnvironment()).length,
+      dbReady,
+      jwtIssuer: jwt.issuer,
       timestamp: new Date().toISOString(),
     });
   } catch (error) {
