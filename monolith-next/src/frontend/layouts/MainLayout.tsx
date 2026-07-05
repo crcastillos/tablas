@@ -37,6 +37,7 @@ import { useAuth } from "@/frontend/context/AuthContext";
 import { useAppContext } from "@/frontend/context/AppContext";
 import { formatMonthYear } from "@/frontend/utils/dates";
 import { PeriodStatus } from "@/frontend/types/domain";
+import ArielChatWidget from "@/frontend/components/ariel/ArielChatWidget";
 
 const navItems = [
   { to: "/", label: "Inicio", icon: <DashboardIcon /> },
@@ -61,7 +62,9 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
   const { households, activeHousehold, setActiveHousehold, periods, activePeriod, setActivePeriod } = useAppContext();
 
   const handleLogout = () => {
-    void logout().then(() => router.push("/login"));
+    void logout().then(() => {
+      router.push("/login");
+    });
   };
 
   const drawer = (
@@ -125,7 +128,9 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
               </MenuItem>
             ))}
           </Select>
-          <IconButton color="inherit" aria-label="Registrar gasto rapido" onClick={() => router.push("/expenses?quick=1")}>
+          <IconButton color="inherit" aria-label="Registrar gasto rapido" onClick={() => {
+            router.push("/expenses?quick=1");
+          }}>
             <AddIcon />
           </IconButton>
           <Button color="inherit" startIcon={<LogoutIcon />} onClick={handleLogout} sx={{ ml: { xs: 0, md: "auto" } }} aria-label="Salir">
@@ -143,6 +148,7 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
       <Box component="main" sx={{ flexGrow: 1, p: { xs: 2, md: 3 }, mt: 8, width: "100%" }}>
         {children}
       </Box>
+      <ArielChatWidget />
     </Box>
   );
 }

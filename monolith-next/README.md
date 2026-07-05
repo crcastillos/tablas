@@ -15,6 +15,7 @@ Rutas incluidas para usuario final:
 - `/recurring`
 - `/categories`
 - `/reports`
+- `/ariel`
 - `/members`
 - `/settings`
 
@@ -38,6 +39,7 @@ Requeridas en runtime:
 - `JWT__Issuer`
 - `JWT__Audience`
 - `JWT__ExpiresMinutes`
+- `OPENAI_API_KEY` (solo server-side, requerida para `/api/ariel/chat`)
 
 UI/publicas (sin secretos):
 
@@ -45,6 +47,10 @@ UI/publicas (sin secretos):
 - `NEXT_PUBLIC_APP_NAME`
 - `NEXT_PUBLIC_DEFAULT_CURRENCY`
 - `NEXT_PUBLIC_DEFAULT_TIME_ZONE`
+
+Opcional server-side:
+
+- `OPENAI_MODEL` (default `gpt-5.5-medium`)
 
 ## Pruebas locales
 
@@ -74,6 +80,8 @@ npm run build
 - alta de ingreso, presupuesto y gasto
 - navegacion completa por menu
 - reportes y exportacion Excel
+- chat en `/ariel` con contexto de hogar/periodo
+- validacion de fallback cuando falta `OPENAI_API_KEY`
 
 5. Validacion de corte tecnico (requiere app levantada y variables backend validas):
 
@@ -90,4 +98,4 @@ npm run validate:cutover
 - plugin `@netlify/plugin-nextjs`
 - defaults de variables `NEXT_PUBLIC_*` para frontend
 
-Configurar en Netlify UI las variables sensibles (`DefaultConnection`, `JWT__Secret`, `JWT__Issuer`, `JWT__Audience`, `JWT__ExpiresMinutes`) antes de publicar.
+Configurar en Netlify UI las variables sensibles (`DefaultConnection`, `JWT__Secret`, `JWT__Issuer`, `JWT__Audience`, `JWT__ExpiresMinutes`, `OPENAI_API_KEY`) antes de publicar.

@@ -31,3 +31,12 @@ export function validateBootstrapEnvironment(): void {
   }
   getJwtConfig();
 }
+
+export function getOpenAiConfig() {
+  const apiKey = process.env.OPENAI_API_KEY?.trim() ?? "";
+  const model = process.env.OPENAI_MODEL?.trim() || "gpt-5.5-medium";
+  return {
+    apiKey,
+    model,
+  };
+}

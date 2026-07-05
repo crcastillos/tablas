@@ -17,7 +17,9 @@ export default function RegisterPage() {
   const [submitting, setSubmitting] = useState(false);
 
   useEffect(() => {
-    if (user) router.replace("/");
+    if (user) {
+      router.replace("/");
+    }
   }, [user, router]);
 
   const handleSubmit = async (event: React.FormEvent) => {

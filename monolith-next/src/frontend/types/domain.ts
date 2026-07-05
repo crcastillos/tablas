@@ -327,3 +327,16 @@ export interface MonthlyComparisonItem {
   budgeted: number;
   spent: number;
 }
+
+export interface ArielChatResponse {
+  reply: string;
+  context: ArielChatContext;
+}
+
+export interface ArielChatContext {
+  householdId: string;
+  householdName: string;
+  periodId: string;
+  periodLabel: string;
+  currencyCode: string;
+}
